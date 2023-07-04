@@ -18,3 +18,13 @@ Run make, current compiler is clang++-9.
 * Allow resizing the images.
 * Add more tools.
 * Please feel free to suggest more features.
+
+
+## Used headers:
+| library/header | link|
+| ------------- | ------------- |
+| PDFGen     |         https://github.com/AndreRenaud/PDFGen  |
+| Miniz       |        https://github.com/richgel999/miniz    |
+| Flags        |       https://github.com/sailormoon/flags    |
+| stb_image.h   |      https://github.com/nothings/stb        |
+| stb_image_write.h|   https://github.com/nothings/stb        |
