@@ -12,6 +12,7 @@ extern "C" {
 extern "C" {
 #include "include/pdfgen.c"
 }
+#include "greyscale.h"
 
 void cleanTemp() {
     std::experimental::filesystem::path tempPath("_temp_images");
@@ -27,6 +28,7 @@ int main(int argc, char** argv) {
     const auto help = args.get<bool>("help", false);
     const auto h = args.get<bool>("h", false);
     const auto quality = args.get<int>("q", 100);
+    const auto g = args.get<bool>("g", false);
 
     uint8_t inputCounter = 0;
     std::string inputFileName;
@@ -125,7 +127,6 @@ int main(int argc, char** argv) {
 
     // Convert the images and write to the pdf
 
-
     struct pdf_info info = {
             .creator = "cbz2pdf"
     };
@@ -135,15 +136,26 @@ int main(int argc, char** argv) {
     for (const auto& entry : std::experimental::filesystem::directory_iterator(tempPath)) {
         int x,y,n;
         int channels = 0;
+        unsigned char *dataptr = nullptr;
         unsigned char *data = stbi_load((tempPath.string() + "/" + entry.path().filename().string()).c_str(), &x, &y, &n, 0);
         if(data == NULL) {
             std::cout << "could not open " + (tempPath / entry.path()).filename().string() << std::endl;
             cleanTemp();
             return 1;
         }
-        channels = n;
+        if(g) {
+            if(n == 4) channels = 2;
+            else channels = 1;
+            unsigned char *gsdata = new unsigned char[x*y*channels];
+            convertToGrayscale(data, x, y, n, gsdata);
+            dataptr = gsdata;
+            stbi_image_free(data);
+        } else {
+            channels = n;
+            dataptr = data;
+        }
         auto filenameNew = (tempPath.string() + "/" + entry.path().filename().string().substr(0,entry.path().filename().string().find_last_of(".")) + ".jpg");
-        if(stbi_write_jpg(filenameNew.c_str(), x, y, channels, data, quality) != 0){
+        if(stbi_write_jpg(filenameNew.c_str(), x, y, channels, dataptr, quality) != 0){
             remove((tempPath.string() + "/" + entry.path().filename().string()).c_str());
 
             pdf_page_set_size(doc, NULL, x, y);
@@ -151,6 +163,7 @@ int main(int argc, char** argv) {
             counter++;
             if(counter < num_files) pdf_append_page(doc);
         }
+        stbi_image_free(dataptr);
     }
 
     pdf_save(doc, (inputFileName.substr(0, inputFileName.find_last_of(".")) + ".pdf").c_str());

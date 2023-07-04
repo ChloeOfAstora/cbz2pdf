@@ -1,3 +1,5 @@
 .idea/
 *.o
 cbz2pdf
+*.cbz
+*.pdf
