@@ -39,6 +39,7 @@ int main(int argc, char** argv) {
         std::cout << "cbz2pdf" << std::endl << "options:" << std::endl <<
         "-h, -help    - Displays this message." << std::endl <<
         "-q           - Sets image quality of the pdf file (1-100, default=100)." << std::endl <<
+        "-g           - Converts the images to greyscale." << std::endl <<
         std::endl <<
         "Usage: cbz2pdf \"filename\""
         << std::endl;
