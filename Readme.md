@@ -10,16 +10,19 @@ Right now only jpg compression is supported which can be controlled using the -q
 ## Making:
 Run make, current compiler is clang++-9.
 
+## Features:
+* Converting the images to greyscale.
+* Resizing the images to make them smaller.
+* Selecting jpg quality (1-100).
 
 ## Todo:
 * Optimize file conversion in order to save space.
 * Allow batch converting.
-* Allow resizing the images.
 * Add more tools.
 * Please feel free to suggest more features.
 
 
-## Used headers:
+### Used headers:
 | library/header | link|
 | ------------- | ------------- |
 | PDFGen     |         https://github.com/AndreRenaud/PDFGen  |
@@ -27,3 +30,4 @@ Run make, current compiler is clang++-9.
 | Flags        |       https://github.com/sailormoon/flags    |
 | stb_image.h   |      https://github.com/nothings/stb        |
 | stb_image_write.h|   https://github.com/nothings/stb        |
+|stb_image_resize.h|   https://github.com/nothings/stb        |

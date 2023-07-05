@@ -6,13 +6,15 @@
 #include "include/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "include/stb_image_write.h"
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "include/stb_image_resize.h"
 extern "C" {
 #include "include/pdfgen.c"
 }
 #include "greyscale.h"
 
 
-int convertAndWrite(int quality, bool g, int num_files, std::string inputFileName) {
+int convertAndWrite(int quality, bool g, int num_files, std::string inputFileName, float scale) {
 
     struct pdf_info info = {
             .creator = "cbz2pdf"
@@ -30,6 +32,20 @@ int convertAndWrite(int quality, bool g, int num_files, std::string inputFileNam
             std::cout << "could not open " + (tempPath / entry.path()).filename().string() << std::endl;
             cleanTemp();
             return 1;
+        }
+        if(scale != 1) {
+            int nx = x * scale;
+            int ny = y * scale;
+            unsigned char *scaledData = new unsigned char[nx * ny * n];
+            if(stbir_resize_uint8(data, x, y, 0, scaledData, nx, ny, 0, n) == 0) {
+                std::cout << "Unable to resize one or more images, exiting.." << std::endl;
+                cleanTemp();
+                return 1;
+            }
+            stbi_image_free(data);
+            data = scaledData;
+            x = nx;
+            y = ny;
         }
         if (g) {
             if (n == 4) channels = 2;

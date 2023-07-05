@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
     const auto h = args.get<bool>("h", false);
     const auto quality = args.get<int>("q", 100);
     const auto g = args.get<bool>("g", false);
+    const auto scale = args.get<float>("r", 1.0f);
 
     uint8_t inputCounter = 0;
     std::string inputFileName;
@@ -27,8 +28,9 @@ int main(int argc, char** argv) {
         "cbz2pdf"                                                                       << std::endl <<
         "options:"                                                                      << std::endl <<
         "-h, -help    - Displays this message."                                         << std::endl <<
-        "-q           - Sets image quality of the pdf file (1-100, default=100)."       << std::endl <<
+        "-q n         - Sets image quality of the pdf file to n (1-100, default=100)."  << std::endl <<
         "-g           - Converts the images to greyscale."                              << std::endl <<
+        "-r n         - Resize the images by a scale of n (0.1-1, default=1)."          << std::endl <<
                                                                                         std::endl <<
         "Usage: cbz2pdf \"filename\""
         << std::endl;
@@ -38,6 +40,10 @@ int main(int argc, char** argv) {
     // Check if parameters are within bounds
     if(quality > 100 || quality < 1) {
         std::cout << "Unsupported quality selected." << std::endl;
+        return 1;
+    }
+    if(scale > 1 || scale < 0.1) {
+        std::cout << "Unsupported scale selected." << std::endl;
         return 1;
     }
 
@@ -73,7 +79,7 @@ int main(int argc, char** argv) {
 
     // Convert the images and write to the pdf
 
-    if(convertAndWrite(quality, g, num_files, inputFileName) != 0) return 1;
+    if(convertAndWrite(quality, g, num_files, inputFileName, scale) != 0) return 1;
 
     // Clean temp folder
     cleanTemp();
