@@ -4,6 +4,7 @@ extern "C" {
 #include "include/miniz.c"
 }
 #include "string"
+#include <algorithm>
 #include "general.h"
 
 int unzipArchive(std::string inputFileName, int &num_files) {
@@ -50,7 +51,9 @@ int unzipArchive(std::string inputFileName, int &num_files) {
         // Create a file in the temp directory and write the extracted data to it
         // All files go to root of the temp directory
         std::string fileWithoutPath(file_stat.m_filename);
-        fileWithoutPath = fileWithoutPath.substr(fileWithoutPath.find_last_of("/") + 1);
+        //fileWithoutPath = fileWithoutPath.substr(fileWithoutPath.find_last_of("/") + 1);
+        // Fix for folder bs
+        std::replace(fileWithoutPath.begin(), fileWithoutPath.end(), '/', '_');
         std::experimental::filesystem::path tempFilePath = tempPath / fileWithoutPath.c_str();
         std::ofstream outputFile(tempFilePath, std::ios::binary);
         outputFile.write(reinterpret_cast<const char *>(file_data), file_stat.m_uncomp_size);
