@@ -23,8 +23,9 @@ Run make, current compiler is clang++-9.
 * Selecting jpg quality (1-100).
 
 ## Todo:
-* Optimize file conversion in order to save space.
+* (Maybe) Optimize file conversion in order to save space.
 * Allow batch converting.
+* Allow merging multiple cbz files to one pdf file.
 * Add more tools.
 * Please feel free to suggest more features.
 
