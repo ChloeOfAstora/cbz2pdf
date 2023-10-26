@@ -18,7 +18,7 @@ This program is intended to help people who want to read comics/manga/etc. on e-
 Run make, current compiler is clang++-9.
 
 ## Features:
-* Converting the images to greyscale.
+* Converting the images to grayscale.
 * Resizing the images to make them smaller.
 * Selecting jpg quality (1-100).
 

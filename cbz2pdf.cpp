@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
     }
 
 
-    // Extract files from the cbz file to files in the temp directory
+    // Extract files from the cbz file to the temp directory
     int num_files = 0;
     if(unzipArchive(inputFileName, num_files) != 0) return 1;
 
