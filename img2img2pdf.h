@@ -28,6 +28,12 @@ int convertAndWrite(int quality, bool g, int num_files, std::string inputFileNam
         int x, y, n;
         int channels = 0;
 
+        //Check if file is not a directory file (file without extension after unzipping)
+        if(entry.path().filename().string().find(".") == std::string::npos) {
+            remove((tempPath.string() + "/" + entry.path().filename().string()).c_str());
+            continue;
+        }
+
         //Attempt to open the image
         unsigned char *dataptr = nullptr;
         unsigned char *data = stbi_load((tempPath.string() + "/" + entry.path().filename().string()).c_str(), &x, &y,

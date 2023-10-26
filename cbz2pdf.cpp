@@ -47,42 +47,40 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    // Check input file
+    // Loop through all files
     for (const auto& file : files) {
-        if(inputCounter == 0) {
-            inputFileName = (std::string)file;
-            inputCounter++;
-        } else {
-            std::cout << "Only one file at a time is supported." << std::endl;
+        inputFileName = (std::string)file;
+        inputCounter++;
+
+        // Check file
+        std::experimental::filesystem::path inputFilePath(inputFileName);
+        if (!std::experimental::filesystem::exists(inputFilePath)) {
+            std::cout << "Input file does not exist!" << std::endl;
             return 1;
         }
+
+
+        // Create a temp folder if it doesn't already exist.
+        std::experimental::filesystem::path tempPath(tempName);
+        if (!std::experimental::filesystem::exists(tempPath)) {
+            std::experimental::filesystem::create_directory(tempName);
+        }
+
+
+        // Extract files from the cbz file to the temp directory
+        int num_files = 0;
+        if(unzipArchive(inputFileName, num_files) != 0) return 1;
+
+
+        // Convert the images and write to the pdf
+
+        if(convertAndWrite(quality, g, num_files, inputFileName, scale) != 0) return 1;
+
+        // Clean temp folder
+        cleanTemp();
     }
 
-    std::experimental::filesystem::path inputFilePath(inputFileName);
-    if (!std::experimental::filesystem::exists(inputFilePath)) {
-        std::cout << "Input file does not exist!" << std::endl;
-        return 1;
-    }
 
-
-    // Create a temp folder if it doesn't already exist.
-    std::experimental::filesystem::path tempPath(tempName);
-    if (!std::experimental::filesystem::exists(tempPath)) {
-        std::experimental::filesystem::create_directory(tempName);
-    }
-
-
-    // Extract files from the cbz file to the temp directory
-    int num_files = 0;
-    if(unzipArchive(inputFileName, num_files) != 0) return 1;
-
-
-    // Convert the images and write to the pdf
-
-    if(convertAndWrite(quality, g, num_files, inputFileName, scale) != 0) return 1;
-
-    // Clean temp folder
-    cleanTemp();
 
     return 0;
 }

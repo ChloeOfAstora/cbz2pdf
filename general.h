@@ -2,7 +2,7 @@
 #define CBZ2PDF_GENERAL_H
 #include <experimental/filesystem>
 // I know global variables are "bad" but this one is useful
-const auto tempName = "_temp_images"; // So I don't have to hard-code paths for it
+const auto tempName = "_temp_images_cbz2pdf"; // So I don't have to hard-code paths for it
 std::experimental::filesystem::path tempPath(tempName);
 
 void cleanTemp() {
