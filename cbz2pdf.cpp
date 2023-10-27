@@ -73,10 +73,15 @@ int main(int argc, char** argv) {
     const auto g = args.get<bool>("g", false);
     const auto c = args.get<bool>("c", false);
     const auto scale = args.get<float>("r", 1.0f);
+    const auto printLicense = args.get<bool>("license", false);
 
     if(!c) {
         main_gui(argc, argv);
         return 0;
+    }
+
+    if(printLicense) {
+        printLicenseToTerminal();
     }
 
     uint8_t inputCounter = 0;

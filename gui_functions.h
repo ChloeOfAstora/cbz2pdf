@@ -61,6 +61,7 @@ void aboutCallback(Fl_Widget *widget, void *) {
                "\n\n\n\n"
                "miniz LICENSE available at:\n"
                "https://github.com/richgel999/miniz/blob/master/LICENSE"
+               "Or run this program with the -c and -license arguments to view the full licence."
                );
 
 }
