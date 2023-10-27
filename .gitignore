@@ -3,3 +3,5 @@
 cbz2pdf
 *.cbz
 *.pdf
+/build in windows.txt
+*.exe

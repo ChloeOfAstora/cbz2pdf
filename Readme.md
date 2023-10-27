@@ -31,11 +31,12 @@ Run make, current compiler is clang++-9.
 
 
 ### Used headers:
-| library/header | link|
-| ------------- | ------------- |
-| PDFGen     |         https://github.com/AndreRenaud/PDFGen  |
-| Miniz       |        https://github.com/richgel999/miniz    |
-| Flags        |       https://github.com/sailormoon/flags    |
-| stb_image.h   |      https://github.com/nothings/stb        |
-| stb_image_write.h|   https://github.com/nothings/stb        |
-|stb_image_resize.h|   https://github.com/nothings/stb        |
+| library/header     | link|
+|--------------------| ------------- |
+| PDFGen             |         https://github.com/AndreRenaud/PDFGen  |
+| Miniz              |        https://github.com/richgel999/miniz    |
+| Flags              |       https://github.com/sailormoon/flags    |
+| stb_image.h        |      https://github.com/nothings/stb        |
+| stb_image_write.h  |   https://github.com/nothings/stb        |
+| stb_image_resize.h |   https://github.com/nothings/stb        |
+| FLTK               |   https://www.fltk.org/index.php        |

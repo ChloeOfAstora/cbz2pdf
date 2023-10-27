@@ -5,8 +5,62 @@
 #include "unzip.h"
 #include "img2img2pdf.h"
 #include "general.h"
+
+#include "include/FL/Fl.H"
+#include "include/FL/Fl_Double_Window.H"
+#include "include/FL/Fl_Button.H"
+#include "include/FL/Fl_Check_Browser.H"
+#include "include/FL/Fl_Input.H"
+#include "include/FL/Fl_Browser.H"
+#include "include/FL/Fl_Multi_Browser.H"
+#include "include/FL/Fl_File_Chooser.H"
+#include "include/FL/fl_ask.H"
+#include "gui_functions.h"
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+int main_gui(int argc, char **argv) {
+    { mainWindow = new Fl_Double_Window(width, height);
+        { convert_button = new Fl_Button(0, 345, 300, 30, "Convert");
+            convert_button->callback(convertCallback, nullptr);
+        }
+        { toggleable_options = new Fl_Check_Browser(170, 35, 125, 70);
+        }
+        { resolution_input = new Fl_Input(120, 35, 40, 35, "Scale (0.1-1):");
+        }
+        { quality_input = new Fl_Input(120, 70, 40, 35, "Quality (0-100):");
+        }
+        { input_files = new Fl_Multi_Browser(5, 115, 290, 195);
+            input_files->callback(selectCallback, nullptr);
+        }
+        { open_button = new Fl_Button(0, 0, 150, 30, "Open");
+            open_button->callback(openFilesCallback, nullptr);
+        }
+        { about_button = new Fl_Button(150, 0, 150, 30, "About");
+            about_button->callback(aboutCallback, nullptr);
+        }
+        { up_button = new Fl_Button(0, 310, 100, 30, "Up");
+            up_button->callback(upCallback, nullptr);
+        }
+        { down_button = new Fl_Button(100, 310, 100, 30, "Down");
+            down_button->callback(downCallback, nullptr);
+        }
+        { remove_button = new Fl_Button(200, 310, 100, 30, "Remove");
+            remove_button->callback(removeCallback, nullptr);
+        }
+        mainWindow->size_range(width, height, width, height);
+        mainWindow->label("cbz2pdf");
+        mainWindow->end();
+    }
+
+    quality_input->value("75");
+    resolution_input->value("1.0");
+    toggleable_options->add("Greyscale");
+    toggleable_options->add("Merge");
+    mainWindow->show(argc, argv);
+    return Fl::run();
+}
 
 
 int main(int argc, char** argv) {
@@ -17,7 +71,13 @@ int main(int argc, char** argv) {
     const auto h = args.get<bool>("h", false);
     const auto quality = args.get<int>("q", 100);
     const auto g = args.get<bool>("g", false);
+    const auto c = args.get<bool>("c", false);
     const auto scale = args.get<float>("r", 1.0f);
+
+    if(!c) {
+        main_gui(argc, argv);
+        return 0;
+    }
 
     uint8_t inputCounter = 0;
     std::string inputFileName;

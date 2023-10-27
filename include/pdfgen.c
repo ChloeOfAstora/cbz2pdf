@@ -107,6 +107,10 @@ typedef SSIZE_T ssize_t;
 #define _XOPEN_SOURCE 600 /* for M_SQRT2 */
 #endif
 
+#ifndef M_SQRT2
+#define M_SQRT2 1.41421356237309504880
+#endif
+
 #include <sys/types.h> /* for ssize_t */
 #endif
 
